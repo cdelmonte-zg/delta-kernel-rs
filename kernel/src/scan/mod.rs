@@ -233,6 +233,14 @@ impl ScanBuilder {
 
         // if no schema is provided, use snapshot's entire schema (e.g. SELECT *)
         let logical_schema = self.schema.unwrap_or_else(|| self.snapshot.schema());
+        // Drop void columns on reads — they always contain null and cannot be
+        // represented in parquet. See delta protocol primitive types note.
+        let logical_schema: SchemaRef = Arc::new(StructType::new_unchecked(
+            logical_schema
+                .fields()
+                .filter(|f| !matches!(f.data_type(), DataType::Primitive(PrimitiveType::Void)))
+                .cloned(),
+        ));
 
         self.snapshot
             .table_configuration()

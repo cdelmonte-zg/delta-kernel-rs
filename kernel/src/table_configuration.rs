@@ -114,6 +114,8 @@ impl TableConfiguration {
         let table_properties = metadata.parse_table_properties();
         let column_mapping_mode = column_mapping_mode(&protocol, &table_properties);
 
+
+
         let table_config = Self {
             schema,
             metadata,
