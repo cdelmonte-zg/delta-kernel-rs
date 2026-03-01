@@ -114,14 +114,6 @@ impl TableConfiguration {
         let table_properties = metadata.parse_table_properties();
         let column_mapping_mode = column_mapping_mode(&protocol, &table_properties);
 
-
-<<<<<<< HEAD
-=======
-        validate_timestamp_ntz_feature_support(&schema, &protocol)?;
-
-        validate_variant_type_feature_support(&schema, &protocol)?;
->>>>>>> fbdfb50 (refactor: keep void columns visible on reads, validate only at write time)
-
         let table_config = Self {
             schema,
             metadata,
